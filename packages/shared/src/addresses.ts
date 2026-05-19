@@ -13,8 +13,17 @@ export interface MirrorAddresses {
 /**
  * Resolve addresses from environment. Throws if a required address is missing,
  * so misconfigurations fail fast rather than silently routing to address(0).
+ *
+ * The default arg lazily reads `process.env` (Node only). In the browser, the
+ * caller must pass an explicit env object (e.g. import.meta.env). The Node-only
+ * default is wrapped so importing this module from a browser doesn't blow up
+ * on `process is not defined` at module-eval time.
  */
-export function addressesFromEnv(env: Record<string, string | undefined> = process.env): MirrorAddresses {
+function nodeEnv(): Record<string, string | undefined> {
+  return typeof process !== "undefined" && process.env ? (process.env as Record<string, string | undefined>) : {};
+}
+
+export function addressesFromEnv(env: Record<string, string | undefined> = nodeEnv()): MirrorAddresses {
   const req = (key: string): Address => {
     const v = env[key];
     if (!v || !/^0x[0-9a-fA-F]{40}$/.test(v)) {
@@ -35,6 +44,6 @@ export function addressesFromEnv(env: Record<string, string | undefined> = proce
 
 export const ARC_TESTNET = {
   chainId: 5042002,
-  rpcUrl: process.env.ARC_RPC_URL ?? "https://rpc.testnet.arc.network",
+  rpcUrl: nodeEnv().ARC_RPC_URL ?? "https://rpc.testnet.arc.network",
   explorer: "https://explorer.testnet.arc.network",
 } as const;
