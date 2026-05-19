@@ -1,0 +1,19 @@
+{
+  "name": "mirror",
+  "private": true,
+  "version": "0.1.0",
+  "packageManager": "bun@1.1.34",
+  "workspaces": [
+    "agent",
+    "app",
+    "packages/*"
+  ],
+  "scripts": {
+    "build": "bun --filter '*' run build",
+    "test": "bun --filter '*' run test",
+    "lint": "bun --filter '*' run lint"
+  },
+  "engines": {
+    "bun": ">=1.1.0"
+  }
+}

@@ -1,0 +1,25 @@
+node_modules/
+.next/
+dist/
+build/
+out/
+coverage/
+
+# Foundry
+contracts/out/
+contracts/cache/
+contracts/broadcast/
+contracts/lib/
+
+.env
+.env.local
+.env.*.local
+*.log
+.DS_Store
+.turbo/
+.vscode/
+.idea/
+
+# Local secrets (Circle recovery file lives at ~/.mirror/ outside the repo, but ignore if anyone drops one here)
+**/circle-recovery-file.json
+**/secrets/

@@ -1,0 +1,26 @@
+# Bun configuration for Mirror Protocol.
+# Pinned to the official npm registry. No alternative mirrors.
+
+[install]
+# Only the registered npm registry. Bun's CDN proxy is bypassed.
+registry = "https://registry.npmjs.org/"
+
+# Disable arbitrary postinstall scripts from third-party packages.
+# Supply-chain attacks overwhelmingly use postinstall hooks; turning this off
+# at the global level eliminates that attack surface.
+#
+# A handful of packages (esbuild, etc.) depend on postinstall to fetch native
+# binaries. If `bun install` fails for one of those, allowlist it in
+# `[install.trustedDependencies]` rather than flipping this back on.
+ignoreScripts = true
+
+# Verify integrity from the lockfile on every install. If a package's
+# downloaded bytes don't match `bun.lockb`, the install fails closed.
+frozenLockfile = false  # set true in CI; left false locally for first install
+
+# Save exact versions to the lockfile.
+saveExact = true
+
+[install.scopes]
+# No private scopes configured. Leave empty so a typo'd @mirror/* import can't
+# silently resolve to a different registry.
