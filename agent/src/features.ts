@@ -20,7 +20,10 @@ export function computeFeatures(t: LeaderTelemetry, history: Array<{ ts: number;
       0,
       Math.round(((t.peakEquityUsd - past.equity) / Math.max(1, t.peakEquityUsd)) * 10_000),
     );
-    velocity = drawdownBps - pastDdBps;
+    // Velocity is a *risk* signal — negative velocity (drawdown recovering)
+    // is not interesting and the on-chain Telemetry struct holds uint32,
+    // so clamp to ≥0 to avoid encodeFunctionData overflow.
+    velocity = Math.max(0, drawdownBps - pastDdBps);
   }
 
   // Concentration: Herfindahl across symbols, normalized to 0..10_000.
