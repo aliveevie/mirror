@@ -99,61 +99,75 @@ export async function runSupervisor(deps: SupervisorDeps): Promise<void> {
   const interval = deps.intervalMs ?? 30_000;
   // eslint-disable-next-line no-constant-condition
   while (true) {
-    const tickStart = Date.now();
-    const market = await deps.market();
-    const regime = classifyRegime(market);
-
-    for (const leader of deps.leaders) {
-      const t = await collectTelemetry(leader, deps.connectors);
-      if (!t) continue;
-
-      pushHistory(leader, t.currentEquityUsd);
-      // Real high-water mark: max equity observed across the rolling 24h window.
-      const hist = history.get(leader) ?? [];
-      const realPeak = hist.reduce((m, h) => Math.max(m, h.equity), t.currentEquityUsd);
-      const tWithPeak = { ...t, peakEquityUsd: realPeak };
-      const features = computeFeatures(tWithPeak, hist);
-      const result = decide(features, regime);
-      const { artifact, hash } = buildArtifact({
-        agentVersion: AGENT_VERSION,
-        leader,
-        regime,
-        features,
-        thresholds: result.thresholds as unknown as Record<string, number>,
-        decision: result.decision,
-        parameters: result.parameters,
-        confidence: result.confidence,
-      });
-
-      try { await pinArtifact(artifact, hash); } catch (e) { console.error("[pin]", e); continue; }
-
-      // Always evaluate the breaker — the contract decides whether a transition occurs.
-      const evalCall = { to: deps.addresses.riskCircuitBreaker, data: encodeEvaluate(leader, tWithPeak, hash, features) };
+    // Every iteration is wrapped — a transient HL timeout, RPC blip, or
+    // Circle hiccup must never kill the long-running supervisor.
+    try {
+      const tickStart = Date.now();
+      let market;
       try {
-        const tx = await deps.wallet.signAndSend(evalCall);
-        console.log("[evaluate]", { leader, decision: result.decision, tx });
+        market = await deps.market();
       } catch (e) {
-        console.error("[evaluate failed]", { leader, err: String(e) });
-        continue;
+        console.warn("[market snapshot failed; using neutral defaults]", String(e));
+        market = { realizedVolBps: 0, fundingDispersionBps: 0, correlationStress: 0 };
       }
+      const regime = classifyRegime(market);
 
-      if (result.decision === "SLASH") {
-        const bps = BigInt(result.parameters.bps as number);
+      for (const leader of deps.leaders) {
         try {
-          const tx = await deps.wallet.signAndSend({
-            to: deps.addresses.riskCircuitBreaker,
-            data: encodeExecuteSlash(leader, bps),
+          const t = await collectTelemetry(leader, deps.connectors);
+          if (!t) continue;
+
+          pushHistory(leader, t.currentEquityUsd);
+          const hist = history.get(leader) ?? [];
+          const realPeak = hist.reduce((m, h) => Math.max(m, h.equity), t.currentEquityUsd);
+          const tWithPeak = { ...t, peakEquityUsd: realPeak };
+          const features = computeFeatures(tWithPeak, hist);
+          const result = decide(features, regime);
+          const { artifact, hash } = buildArtifact({
+            agentVersion: AGENT_VERSION,
+            leader,
+            regime,
+            features,
+            thresholds: result.thresholds as unknown as Record<string, number>,
+            decision: result.decision,
+            parameters: result.parameters,
+            confidence: result.confidence,
           });
-          console.log("[slash]", { leader, bps: bps.toString(), tx });
-        } catch (e) {
-          // executeSlash will revert unless the breaker is in SLASHING; that's expected
-          // when this is the first telemetry that pushes the FSM forward.
-          console.warn("[slash skipped]", { leader, err: String(e) });
+
+          try { await pinArtifact(artifact, hash); } catch (e) { console.error("[pin]", e); }
+
+          const evalCall = { to: deps.addresses.riskCircuitBreaker, data: encodeEvaluate(leader, tWithPeak, hash, features) };
+          try {
+            const tx = await deps.wallet.signAndSend(evalCall);
+            console.log("[evaluate]", { leader, decision: result.decision, tx });
+          } catch (e) {
+            console.error("[evaluate failed]", { leader, err: String(e) });
+            continue;
+          }
+
+          if (result.decision === "SLASH") {
+            const bps = BigInt(result.parameters.bps as number);
+            try {
+              const tx = await deps.wallet.signAndSend({
+                to: deps.addresses.riskCircuitBreaker,
+                data: encodeExecuteSlash(leader, bps),
+              });
+              console.log("[slash]", { leader, bps: bps.toString(), tx });
+            } catch (e) {
+              // Expected when FSM hasn't yet reached SLASHING; loop on.
+              console.warn("[slash skipped]", { leader, err: String(e) });
+            }
+          }
+        } catch (perLeaderErr) {
+          console.error("[leader iter failed]", { leader, err: String(perLeaderErr) });
         }
       }
-    }
 
-    const elapsed = Date.now() - tickStart;
-    await new Promise((r) => setTimeout(r, Math.max(0, interval - elapsed)));
+      const elapsed = Date.now() - tickStart;
+      await new Promise((r) => setTimeout(r, Math.max(0, interval - elapsed)));
+    } catch (tickErr) {
+      console.error("[tick failed; sleeping then retrying]", String(tickErr));
+      await new Promise((r) => setTimeout(r, interval));
+    }
   }
 }
