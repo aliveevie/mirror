@@ -12,14 +12,14 @@ export const arcTestnet = defineChain({
   },
   blockExplorers: {
     default: {
-      name: "Arc Explorer",
-      url: "https://explorer.testnet.arc.network",
+      name: "ArcScan",
+      url: "https://testnet.arcscan.app",
     },
   },
   testnet: true,
 });
 
-export const ARC_EXPLORER = "https://explorer.testnet.arc.network";
+export const ARC_EXPLORER = "https://testnet.arcscan.app";
 
 export function explorerAddress(addr: string) {
   return `${ARC_EXPLORER}/address/${addr}`;

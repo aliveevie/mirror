@@ -14,7 +14,7 @@ export function SiteFooter() {
           <AddressLink address={ADDRESSES.AgentWallet} />
           <span className="text-border">·</span>
           <a
-            href="https://explorer.testnet.arc.network"
+            href="https://testnet.arcscan.app"
             target="_blank"
             rel="noreferrer"
             className="hover:text-foreground"

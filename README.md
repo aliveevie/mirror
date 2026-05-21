@@ -92,13 +92,13 @@ There is no human in the loop. The agent decides when to evaluate, what features
 
 | Contract | Address | Explorer |
 |---|---|---|
-| **LeaderRegistry** | `0xf1559Cea926906329a063a071c5290C4a65A2806` | [view](https://explorer.testnet.arc.network/address/0xf1559Cea926906329a063a071c5290C4a65A2806) |
-| **RiskCircuitBreaker** | `0x4C329C3d68ef2c9510E249A8FF991EfbDf15F1b9` | [view](https://explorer.testnet.arc.network/address/0x4C329C3d68ef2c9510E249A8FF991EfbDf15F1b9) |
-| **AllocationRouter** | `0x95Aa364114033d1a72F15361321295c54cBacA10` | [view](https://explorer.testnet.arc.network/address/0x95Aa364114033d1a72F15361321295c54cBacA10) |
-| **BuilderFeeWrapper** | `0xb3dD9713A8353eDA05F967a5154B8fCE6E5604C8` | [view](https://explorer.testnet.arc.network/address/0xb3dD9713A8353eDA05F967a5154B8fCE6E5604C8) |
-| **IdleReserve** | `0x41fBF4092Fee25632F368c35Bb88692568090490` | [view](https://explorer.testnet.arc.network/address/0x41fBF4092Fee25632F368c35Bb88692568090490) |
-| **USDC** *(Arc native, gas)* | `0x3600000000000000000000000000000000000000` | [view](https://explorer.testnet.arc.network/address/0x3600000000000000000000000000000000000000) |
-| **USYC** *(idle reserve)* | `0xe9185F0c5F296Ed1797AaE4238D26CCaBEadb86C` | [view](https://explorer.testnet.arc.network/address/0xe9185F0c5F296Ed1797AaE4238D26CCaBEadb86C) |
+| **LeaderRegistry** | `0xf1559Cea926906329a063a071c5290C4a65A2806` | [view](https://testnet.arcscan.app/address/0xf1559Cea926906329a063a071c5290C4a65A2806) |
+| **RiskCircuitBreaker** | `0x4C329C3d68ef2c9510E249A8FF991EfbDf15F1b9` | [view](https://testnet.arcscan.app/address/0x4C329C3d68ef2c9510E249A8FF991EfbDf15F1b9) |
+| **AllocationRouter** | `0x95Aa364114033d1a72F15361321295c54cBacA10` | [view](https://testnet.arcscan.app/address/0x95Aa364114033d1a72F15361321295c54cBacA10) |
+| **BuilderFeeWrapper** | `0xb3dD9713A8353eDA05F967a5154B8fCE6E5604C8` | [view](https://testnet.arcscan.app/address/0xb3dD9713A8353eDA05F967a5154B8fCE6E5604C8) |
+| **IdleReserve** | `0x41fBF4092Fee25632F368c35Bb88692568090490` | [view](https://testnet.arcscan.app/address/0x41fBF4092Fee25632F368c35Bb88692568090490) |
+| **USDC** *(Arc native, gas)* | `0x3600000000000000000000000000000000000000` | [view](https://testnet.arcscan.app/address/0x3600000000000000000000000000000000000000) |
+| **USYC** *(idle reserve)* | `0xe9185F0c5F296Ed1797AaE4238D26CCaBEadb86C` | [view](https://testnet.arcscan.app/address/0xe9185F0c5F296Ed1797AaE4238D26CCaBEadb86C) |
 
 > Every contract is **initialized once and locked**. No proxy admin, no upgrade hatch, no owner-controlled emergency switch. The protocol's rules cannot be changed after the bond is posted.
 
@@ -109,18 +109,18 @@ The supervisor signs every transaction through a Circle Developer-Controlled Wal
 | | |
 |---|---|
 | **Address** | `0xce61a403fc0155170258225669a78c86f7b2887c` |
-| **Explorer** | [view all 1,480+ supervisor txs](https://explorer.testnet.arc.network/address/0xce61a403fc0155170258225669a78c86f7b2887c) |
+| **Explorer** | [view all 1,480+ supervisor txs](https://testnet.arcscan.app/address/0xce61a403fc0155170258225669a78c86f7b2887c) |
 | **Cadence** | 15 s tick — autonomous, 24 / 7 |
 
 ### Representative transactions
 
 | Event | Block | Tx |
 |---|---|---|
-| `evaluate(...)` from agent → RiskCircuitBreaker | `43352298` | [`0x5557830f…99108c76`](https://explorer.testnet.arc.network/tx/0x5557830fdc32819dccf3d75141a237c93c97f07aaa7e8df933f49c92eb61ec76) |
-| FSM transition · `NORMAL → WATCH` | `43184616` | [`0xcd86df8d…81b64e`](https://explorer.testnet.arc.network/tx/0xcd86df8d676aff16849d1c0e7bdadfe793c52c3c08763c40e201e8a75181b64e) |
-| FSM transition · `WATCH → NORMAL` | `43189635` | [`0xacf2f0ff…f317a11d86`](https://explorer.testnet.arc.network/tx/0xacf2f0ff9200b05d1bfa7cfb647151e5bd3cebbf85974d462d96d9c317a11d86) |
-| Leader bond · 5 USDC (deployer) | `43170502` | [`0x98d3573c…7328b2dc`](https://explorer.testnet.arc.network/tx/0x98d3573cea03e9129ca5b8bc50aa34c5a1df788a66dce05d8c0a986f7328b2dc) |
-| Leader bond · 1 USDC (HL wallet) | `43172121` | [`0x83b92ca3…598a61c1c3f`](https://explorer.testnet.arc.network/tx/0x83b92ca36b969201f204842a38dbdf04a0f26f6d7038894371d66598a61c1c3f) |
+| `evaluate(...)` from agent → RiskCircuitBreaker | `43352298` | [`0x5557830f…99108c76`](https://testnet.arcscan.app/tx/0x5557830fdc32819dccf3d75141a237c93c97f07aaa7e8df933f49c92eb61ec76) |
+| FSM transition · `NORMAL → WATCH` | `43184616` | [`0xcd86df8d…81b64e`](https://testnet.arcscan.app/tx/0xcd86df8d676aff16849d1c0e7bdadfe793c52c3c08763c40e201e8a75181b64e) |
+| FSM transition · `WATCH → NORMAL` | `43189635` | [`0xacf2f0ff…f317a11d86`](https://testnet.arcscan.app/tx/0xacf2f0ff9200b05d1bfa7cfb647151e5bd3cebbf85974d462d96d9c317a11d86) |
+| Leader bond · 5 USDC (deployer) | `43170502` | [`0x98d3573c…7328b2dc`](https://testnet.arcscan.app/tx/0x98d3573cea03e9129ca5b8bc50aa34c5a1df788a66dce05d8c0a986f7328b2dc) |
+| Leader bond · 1 USDC (HL wallet) | `43172121` | [`0x83b92ca3…598a61c1c3f`](https://testnet.arcscan.app/tx/0x83b92ca36b969201f204842a38dbdf04a0f26f6d7038894371d66598a61c1c3f) |
 
 <p align="center"><img src="docs/divider.svg" width="100%" height="4" alt=""/></p>
 

@@ -76,7 +76,7 @@ export function ConnectWallet() {
               chainName: arcTestnet.name,
               nativeCurrency: arcTestnet.nativeCurrency,
               rpcUrls: ["https://rpc.testnet.arc.network"],
-              blockExplorerUrls: ["https://explorer.testnet.arc.network"],
+              blockExplorerUrls: ["https://testnet.arcscan.app"],
             } },
             {
               onSuccess: () => toast.success("Switched to Arc Testnet"),

@@ -45,5 +45,5 @@ export function addressesFromEnv(env: Record<string, string | undefined> = nodeE
 export const ARC_TESTNET = {
   chainId: 5042002,
   rpcUrl: nodeEnv().ARC_RPC_URL ?? "https://rpc.testnet.arc.network",
-  explorer: "https://explorer.testnet.arc.network",
+  explorer: "https://testnet.arcscan.app",
 } as const;

@@ -22,4 +22,4 @@ fail_on_revert = false
 arc_testnet = "${ARC_RPC_URL}"
 
 [etherscan]
-arc_testnet = { key = "${ARCSCAN_API_KEY}", url = "https://explorer.testnet.arc.network/api" }
+arc_testnet = { key = "${ARCSCAN_API_KEY}", url = "https://testnet.arcscan.app/api" }

@@ -10,7 +10,7 @@ export const arcTestnet = defineChain({
     default: { http: [env.VITE_ARC_RPC_URL ?? "https://rpc.testnet.arc.network"] },
   },
   blockExplorers: {
-    default: { name: "Arc Explorer", url: "https://explorer.testnet.arc.network" },
+    default: { name: "ArcScan", url: "https://testnet.arcscan.app" },
   },
   testnet: true,
 });
