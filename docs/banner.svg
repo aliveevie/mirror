@@ -1,0 +1,94 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1280 360" role="img" aria-labelledby="title desc">
+  <title id="title">Mirror Protocol</title>
+  <desc id="desc">Slash-bonded social trading with autonomous AI risk supervision, settled on Arc.</desc>
+
+  <defs>
+    <!-- Animated background gradient -->
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#0a0a18">
+        <animate attributeName="stop-color"
+                 values="#0a0a18;#160a2c;#0a0a18"
+                 dur="9s" repeatCount="indefinite"/>
+      </stop>
+      <stop offset="100%" stop-color="#1a0a2e">
+        <animate attributeName="stop-color"
+                 values="#1a0a2e;#0a1424;#1a0a2e"
+                 dur="9s" repeatCount="indefinite"/>
+      </stop>
+    </linearGradient>
+
+    <!-- Sweeping gradient for the wordmark -->
+    <linearGradient id="wm" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#a855f7"/>
+      <stop offset="50%" stop-color="#22d3ee"/>
+      <stop offset="100%" stop-color="#a855f7"/>
+      <animateTransform attributeName="gradientTransform"
+                        type="translate"
+                        from="-1 0" to="1 0"
+                        dur="6s" repeatCount="indefinite"/>
+    </linearGradient>
+
+    <!-- Soft glow for depth -->
+    <filter id="glow" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="6" result="blur"/>
+      <feMerge>
+        <feMergeNode in="blur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+
+    <!-- Subtle dotted grid texture -->
+    <pattern id="grid" x="0" y="0" width="32" height="32" patternUnits="userSpaceOnUse">
+      <circle cx="1" cy="1" r="1" fill="#ffffff" opacity="0.05"/>
+    </pattern>
+
+    <!-- Accent line gradient -->
+    <linearGradient id="line" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#a855f7" stop-opacity="0"/>
+      <stop offset="50%" stop-color="#22d3ee" stop-opacity="0.9"/>
+      <stop offset="100%" stop-color="#a855f7" stop-opacity="0"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Layered background -->
+  <rect width="1280" height="360" fill="url(#bg)" rx="24"/>
+  <rect width="1280" height="360" fill="url(#grid)" rx="24"/>
+
+  <!-- Top + bottom accent lines (animated opacity for breathing effect) -->
+  <rect x="40" y="56" width="1200" height="1" fill="url(#line)">
+    <animate attributeName="opacity" values="0.4;1;0.4" dur="4s" repeatCount="indefinite"/>
+  </rect>
+  <rect x="40" y="304" width="1200" height="1" fill="url(#line)">
+    <animate attributeName="opacity" values="1;0.4;1" dur="4s" repeatCount="indefinite"/>
+  </rect>
+
+  <!-- Tiny status pill -->
+  <g transform="translate(640 96)">
+    <rect x="-120" y="-16" width="240" height="32" rx="16" fill="#22d3ee" fill-opacity="0.10" stroke="#22d3ee" stroke-opacity="0.35"/>
+    <circle cx="-92" cy="0" r="4" fill="#22d3ee">
+      <animate attributeName="opacity" values="1;0.2;1" dur="1.6s" repeatCount="indefinite"/>
+    </circle>
+    <text x="0" y="5" text-anchor="middle" font-family="ui-monospace,Menlo,Monaco,Consolas,monospace" font-size="13" fill="#a5f3fc" letter-spacing="2">LIVE · ARC TESTNET · 5042002</text>
+  </g>
+
+  <!-- Wordmark -->
+  <text x="640" y="210" text-anchor="middle"
+        font-family="ui-monospace,Menlo,Monaco,Consolas,monospace"
+        font-size="108" font-weight="800"
+        fill="url(#wm)"
+        letter-spacing="10"
+        filter="url(#glow)">MIRROR</text>
+
+  <!-- Tagline -->
+  <text x="640" y="258" text-anchor="middle"
+        font-family="-apple-system,BlinkMacSystemFont,'Segoe UI',Inter,sans-serif"
+        font-size="20" font-weight="500"
+        fill="#cbd5e1" letter-spacing="3">SLASH-BONDED SOCIAL TRADING · AUTONOMOUS RISK SUPERVISION</text>
+
+  <!-- Lower meta line -->
+  <g font-family="ui-monospace,Menlo,Monaco,Consolas,monospace" font-size="12" fill="#64748b" letter-spacing="2">
+    <text x="60"   y="338">v0.1.0</text>
+    <text x="640"  y="338" text-anchor="middle">mirror.ibxlab.com</text>
+    <text x="1220" y="338" text-anchor="end">github.com/aliveevie/mirror</text>
+  </g>
+</svg>
