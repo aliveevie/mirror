@@ -1,0 +1,23 @@
+# Mirror Protocol — single-container orchestration.
+#
+# Boot:
+#   docker compose up -d --build
+#
+# UI:    http://localhost:8080
+# Logs:  docker compose logs -f mirror
+
+services:
+  mirror:
+    build:
+      context: .
+      platforms:
+        - linux/amd64
+    image: mirror:latest
+    container_name: mirror
+    restart: unless-stopped
+    env_file: .env
+    ports:
+      - "8080:8080"
+    # Both the supervisor and the UI run inside the same container via the
+    # entrypoint script. If either dies, the container exits and Docker
+    # restarts it (per restart: unless-stopped).

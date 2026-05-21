@@ -1,0 +1,35 @@
+# Never ship secrets or local-only state into a build context.
+.env
+.env.*
+.dev.vars
+
+# Bun / Node detritus — regenerated inside the image.
+node_modules
+**/node_modules
+.bun-cache
+
+# Build outputs.
+**/dist
+**/.output
+**/.tanstack
+
+# Git + IDE.
+.git
+.gitignore
+.github
+.vscode
+.idea
+.DS_Store
+
+# Tests / coverage — not needed at runtime.
+coverage
+**/__tests__
+**/*.test.ts
+**/*.test.tsx
+
+# Standalone scripts (one-shot helpers, not part of the supervisor).
+scripts
+
+# Docs.
+*.md
+LICENSE
